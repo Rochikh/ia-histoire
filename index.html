@@ -1,0 +1,1372 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Infographie : comment les machines ont appris à parler, de 2011 à ChatGPT. Le jeu du mot suivant, la grille des trois cases, la frise, la taille des modèles, un lexique et un quiz.">
+<meta property="og:title" content="Comment les machines ont appris à parler">
+<meta property="og:description" content="Infographie : comment les machines ont appris à parler, de 2011 à ChatGPT. Le jeu du mot suivant, la grille des trois cases, la frise, la taille des modèles, un lexique et un quiz.">
+<meta name="author" content="Rochane Kherbouche">
+<title>Comment les machines ont appris à parler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Mise en page : une affiche de la charte qui s'allonge en frise verticale.
+   Bandeaux pleine largeur comme les cartes, fil anthracite à gauche,
+   jalons ronds pour les événements, jalons carrés pour les chapitres. */
+:root{
+  --paper:#F5EFE0;      /* crème, fond de la charte */
+  --paper-2:#ECE3CE;    /* crème dense, encarts et textes de machine */
+  --paper-3:#FBF8F1;    /* crème clair, cartes */
+  --ink:#2E2E2E;        /* anthracite, trait et texte */
+  --ink-2:#57524B;      /* texte secondaire */
+  --terra:#C4623A;      /* terracotta, dominante */
+  --terra-deep:#9E4523; /* terracotta lisible en petit texte */
+  --sage:#9CAF88;       /* vert sauge */
+  --sage-deep:#556A47;  /* sauge lisible en petit texte */
+  --font-display:"Barlow Condensed","Arial Narrow","Roboto Condensed",system-ui,sans-serif;
+  --font-body:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --stroke:2.5px;
+  --radius:12px;
+  --rail:64px;
+  --pad:clamp(16px,2.6vw,24px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:1.125rem;line-height:1.55}
+.site{background:var(--paper);color:var(--ink);overflow-wrap:break-word}
+.wrap{max-width:1080px;margin-inline:auto;padding-inline:clamp(16px,4vw,40px)}
+a{color:var(--ink);text-decoration-color:var(--terra);text-decoration-thickness:2px;text-underline-offset:3px}
+a:hover{color:var(--terra-deep)}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--terra-deep);outline-offset:3px;border-radius:4px}
+p{margin:0 0 12px}
+cite{font-style:italic}
+.nw{white-space:nowrap}
+.vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Traits SVG, style de la charte */
+.ln{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ln.thin{stroke-width:1.8}
+.ln.dashed{stroke-width:1.8;stroke-dasharray:4 5;stroke:var(--ink-2)}
+.ln-terra{fill:none;stroke:var(--terra);stroke-width:3;stroke-linecap:round}
+.ln-terra.thick{stroke-width:4.5}
+.ln-sage{fill:none;stroke:var(--sage);stroke-width:3.5;stroke-linecap:round}
+.s-paper{fill:var(--paper-3);stroke:var(--ink);stroke-width:2.25;stroke-linejoin:round}
+.s-terra{fill:var(--terra);stroke:var(--ink);stroke-width:2.25;stroke-linejoin:round}
+.s-sage{fill:var(--sage);stroke:var(--ink);stroke-width:2.25;stroke-linejoin:round}
+.s-ink{fill:var(--ink)}
+.s-flat-sage{fill:var(--sage)}
+.thin-s{stroke-width:1.8}
+
+/* Bandeau et en-tête */
+.band{background:var(--terra);color:var(--paper-3);font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(1.25rem,3.2vw,2rem);line-height:1.1}
+.band .wrap{padding-block:14px}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;padding-block:clamp(28px,5vw,56px) 28px}
+h1{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,7.2vw,5rem);line-height:.95;letter-spacing:.005em;margin:0 0 20px;text-wrap:balance}
+.lede p{max-width:34em}
+.meta{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:1.15rem;margin:18px 0 0}
+.hero-fig{margin:0}
+.hero-fig svg{display:block;width:100%;height:auto}
+.hero-fig figcaption{font-size:.95rem;color:var(--ink-2);margin-top:8px}
+.tile-t{font-family:var(--font-display);font-weight:700;font-size:26px;fill:var(--ink);letter-spacing:.02em}
+.tile-q{font-family:var(--font-display);font-weight:800;font-size:36px;fill:var(--paper-3)}
+.h-lab{font-family:var(--font-mono);font-size:16px;fill:var(--ink)}
+.h-val{font-family:var(--font-mono);font-size:15px;fill:var(--ink)}
+.h-cap{font-family:var(--font-display);font-weight:700;font-size:15px;letter-spacing:.08em;fill:var(--ink-2)}
+
+.toc{padding-block:4px 0}
+.toc-in{border-top:var(--stroke) solid var(--ink);border-bottom:var(--stroke) solid var(--ink);padding-block:12px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 20px}
+.toc-label{margin:0;font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1rem;color:var(--terra-deep)}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px}
+.toc a{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:1.08rem;text-decoration:none;border-bottom:2.5px solid var(--sage)}
+.toc a:hover{border-bottom-color:var(--terra)}
+
+/* Sections */
+.block{padding-block:clamp(48px,7vw,84px) 0}
+.eyebrow{display:inline-block;background:var(--sage);color:var(--ink);font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.95rem;padding:4px 10px;margin:0 0 14px}
+h2{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2rem,5vw,3.25rem);line-height:1;margin:0 0 16px;text-wrap:balance}
+h3{font-family:var(--font-display);font-weight:700;font-size:clamp(1.5rem,3vw,1.9rem);line-height:1.08;margin:0 0 10px;text-wrap:balance}
+.intro{max-width:40em;margin:0 0 26px}
+.small-note{font-size:.92rem;color:var(--ink-2);margin:12px 0 0}
+.panel{background:var(--paper-3);border:var(--stroke) solid var(--ink);border-radius:var(--radius);padding:var(--pad)}
+
+/* Boutons */
+.btn{font:700 1.0625rem/1.2 var(--font-body);color:var(--ink);background:var(--paper);border:var(--stroke) solid var(--ink);border-radius:10px;padding:10px 16px;min-height:44px;cursor:pointer;transition:background-color .15s}
+.btn:hover{background:var(--paper-2)}
+.btn[aria-pressed="true"]{background:var(--sage)}
+.btn:disabled{cursor:default;opacity:.5}
+.btn-primary{background:var(--ink);color:var(--paper-3)}
+.btn-primary:hover{background:var(--terra-deep)}
+
+/* Jeu du mot suivant */
+.round-label{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--terra-deep);font-size:1rem;margin:0 0 6px}
+.round-prompt{font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.35;margin:0 0 16px;max-width:32em}
+.blank{display:inline-block;min-width:3em;border-bottom:3px solid var(--terra);text-align:center;color:var(--terra-deep);font-weight:700}
+.choices{display:flex;flex-wrap:wrap;gap:10px}
+.bets{margin-top:18px;border-top:2px dashed var(--ink-2);padding-top:16px}
+.bets-title{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin:0 0 10px}
+.bars{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bars li{display:grid;grid-template-columns:minmax(6.2em,8.5em) minmax(0,1fr) 3.4em;gap:10px;align-items:center;font-family:var(--font-mono);font-size:.95rem}
+.bars .track{height:22px;border-left:var(--stroke) solid var(--ink);position:relative}
+.bars .fill{position:absolute;left:0;top:2px;bottom:2px;width:calc(var(--p) * 1%);min-width:3px;background:var(--sage);border:2px solid var(--ink);border-left:0;border-radius:0 4px 4px 0}
+.bars li.mine .fill{background:var(--terra)}
+.bars li.mine .w::after{content:"ton choix";display:block;font-family:var(--font-body);font-weight:700;font-size:.78rem;color:var(--terra-deep);line-height:1.1}
+.bars li.other{color:var(--ink-2)}
+.bars .v{text-align:right;font-variant-numeric:tabular-nums}
+.feedback{font-weight:700;margin:14px 0 6px}
+.lesson{margin:0 0 14px;max-width:38em}
+.after-game{max-width:40em;margin:20px 0 0}
+
+/* Écriture mot à mot */
+.writer-block{margin-top:36px}
+.writer-text{font-family:var(--font-mono);font-size:clamp(1.02rem,2.2vw,1.2rem);line-height:1.6;background:var(--paper-2);padding:14px 16px;border-radius:8px;margin:0 0 12px;min-height:3.6em}
+.gen-w{color:var(--terra-deep);font-weight:500;border-bottom:2px solid var(--terra)}
+.caret{display:inline-block;width:.55em;height:1.05em;background:var(--ink);vertical-align:-.16em;margin-left:3px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.last{font-weight:700;margin:0 0 8px}
+.next-bets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px}
+.nb-label{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--font-mono);font-size:.9rem;border:2px solid var(--ink);border-radius:999px;padding:2px 10px;background:var(--paper);font-variant-numeric:tabular-nums}
+.random-note{background:var(--paper-2);border-radius:8px;padding:10px 12px;font-size:1rem}
+.why{max-width:40em;margin:20px 0 0}
+
+/* Grille des trois cases */
+.criteria{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-bottom:28px}
+.crit{border-top:var(--stroke) solid var(--ink);padding-top:14px}
+.crit svg{width:56px;height:56px;display:block;margin-bottom:8px}
+.crit p{margin:0}
+.pill{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:30px;padding:2px 12px 2px 30px;border:2px solid var(--ink);border-radius:999px;font:600 .92rem/1.2 var(--font-body);background:var(--paper-3);color:var(--ink)}
+.pill::before{content:"";position:absolute;left:6px;top:50%;width:17px;height:17px;margin-top:-8.5px;border-radius:50%;border:2px solid var(--ink);background:var(--paper-3)}
+.pill.oui{background:var(--sage)}
+.pill.oui::before{background:var(--ink)}
+.pill.oui::after{content:"";position:absolute;left:12.5px;top:50%;width:4px;height:8px;margin-top:-6px;border:solid var(--paper-3);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.pill.non{border-style:dashed;color:var(--ink-2)}
+.pill.non::after{content:"";position:absolute;left:8.5px;top:50%;width:12px;height:2px;margin-top:-1px;background:var(--ink);transform:rotate(-45deg)}
+.grille{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tester{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;align-items:start}
+.tester-help{margin:0 0 10px}
+.cands{display:flex;flex-wrap:wrap;gap:8px}
+.cand{font-size:1rem;text-align:left}
+.verdict{background:var(--paper);border:2px dashed var(--ink-2);border-radius:10px;padding:16px}
+.verdict-name{font-family:var(--font-display);font-weight:800;font-size:1.5rem;line-height:1.05;margin:0 0 12px}
+.verdict-list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:8px;justify-items:start}
+.verdict-list .pill{font-size:1rem;min-height:34px}
+.ans{font-weight:400;font-size:.88rem;text-transform:uppercase;letter-spacing:.05em}
+.vc{margin:0}
+
+/* Avant 2011 */
+.proto{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;position:relative}
+.proto::before{content:"";position:absolute;left:0;right:0;top:10px;height:var(--stroke);background:var(--ink)}
+.proto li{position:relative;padding-top:36px}
+.proto li::before{content:"";position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--paper-3);border:var(--stroke) solid var(--ink)}
+.proto li:last-child::before{background:var(--sage)}
+.proto .y{font-family:var(--font-display);font-weight:800;font-size:1.9rem;line-height:1;color:var(--terra-deep);margin:0}
+.proto .who{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:1.02rem;margin:4px 0 6px}
+.proto p:last-child{font-size:1.02rem;margin:0}
+
+/* Frise */
+.legend{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:1rem;color:var(--ink-2);margin:0 0 20px}
+.legend p{margin:0;display:flex;align-items:center;gap:10px}
+.lg-node{width:26px;height:26px;border-radius:50%;border:var(--stroke) solid var(--ink);background:var(--paper-3);flex:none}
+.lg-mono{font-family:var(--font-mono);color:var(--ink);background:var(--paper-2);padding:0 6px;border-radius:4px}
+.tl{position:relative}
+.tl::before{content:"";position:absolute;top:0;bottom:0;left:calc(var(--rail) / 2 - 1.25px);width:var(--stroke);background:var(--ink)}
+.entry{position:relative;display:grid;grid-template-columns:var(--rail) minmax(0,1fr);column-gap:clamp(12px,2.5vw,24px);padding-block:18px}
+.entry > div,.entry > .card,.entry > .aside-card{min-width:0}
+.node{justify-self:center;width:22px;height:22px;border-radius:50%;background:var(--paper);border:var(--stroke) solid var(--ink);margin-top:5px;position:relative;z-index:1}
+.entry.major .node{width:60px;height:60px;margin-top:0;background:var(--paper-3);display:grid;place-items:center}
+.entry.major .node svg{width:38px;height:38px}
+.entry.chapter{padding-block:34px 8px}
+.entry.chapter .node{width:30px;height:30px;border-radius:5px;background:var(--sage);margin-top:2px}
+.chap-band{display:inline-block;background:var(--sage);font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.95rem;padding:4px 10px;margin:0 0 8px}
+.chap-title{font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(1.8rem,4vw,2.7rem);line-height:1;margin:0}
+.card{background:var(--paper-3);border:var(--stroke) solid var(--ink);border-radius:14px;padding:var(--pad)}
+.entry.key .card{border-width:3.5px}
+.entry p.key-band{max-width:none}
+.key-band{margin:calc(-1 * var(--pad)) calc(-1 * var(--pad)) 16px;padding:10px var(--pad);background:var(--terra);color:var(--paper-3);font:800 1.25rem/1 var(--font-display);letter-spacing:.08em;text-transform:uppercase;border-radius:10px 10px 0 0}
+.when{margin:0 0 4px;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.when strong{font-family:var(--font-display);font-weight:800;font-size:1.65rem;line-height:1;color:var(--terra-deep)}
+.when span{font-family:var(--font-display);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:1rem;color:var(--ink-2)}
+.entry-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.55rem,3vw,2rem);line-height:1.05;margin:0 0 10px;text-wrap:balance}
+.entry p{max-width:38em}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px;margin:14px 0}
+.pair dt{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.95rem;color:var(--sage-deep)}
+.pair dd{margin:2px 0 0}
+.aside-line{font-size:1rem;color:var(--ink-2)}
+.specimen{margin:14px 0;background:var(--paper-2);border:1.5px dashed var(--ink-2);border-radius:6px;padding:12px 14px}
+.specimen figcaption{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:.88rem;color:var(--terra-deep);margin:0 0 8px}
+.specimen blockquote{margin:0}
+.specimen blockquote p,.specimen .m{font-family:var(--font-mono);font-size:.97rem;line-height:1.55;margin:0 0 6px}
+.specimen .human{font-style:italic;margin:0 0 8px}
+.specimen .sp-note{font-size:.95rem;color:var(--ink-2);margin:6px 0 0}
+.specimen .lab{display:block;font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:.86rem;color:var(--ink-2);margin:0 0 2px}
+.dialog p{display:grid;grid-template-columns:6rem minmax(0,1fr);gap:8px;margin:0 0 4px;font-size:1rem;align-items:baseline}
+.dialog .who{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:.86rem;color:var(--ink-2)}
+.dialog p.m span:last-child{font-family:var(--font-mono);font-size:.97rem}
+.dialog p.m{font-family:var(--font-body)}
+.big-claim{font-family:var(--font-display);font-weight:700;font-size:clamp(1.4rem,2.6vw,1.75rem);line-height:1.12;margin:6px 0 12px}
+.first3{font-weight:700;margin:10px 0 0}
+.facts,.sq{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:10px}
+.facts li,.sq li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:10px;align-items:start}
+.facts li::before,.sq li::before{content:"";width:12px;height:12px;margin-top:.5em;background:var(--terra);border:2px solid var(--ink);border-radius:2px}
+.sq{margin:10px 0 14px;gap:6px}
+details.more{margin-top:14px;border-top:1.5px solid var(--ink-2);padding-top:10px}
+details.more summary{cursor:pointer;list-style:none;font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:1.02rem;display:inline-flex;align-items:center;gap:8px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:"+";display:inline-grid;place-items:center;width:22px;height:22px;border:2px solid var(--ink);border-radius:50%;font-size:1.05rem;line-height:1;color:var(--terra-deep);transition:transform .2s}
+details.more[open] summary::before{transform:rotate(45deg)}
+details.more p{margin:10px 0 0}
+.holes{display:grid;gap:8px;margin:12px 0 6px}
+.holes p{margin:0}
+.hole{display:inline-block;min-width:2.4em;text-align:center;border-bottom:3px solid var(--terra);font-weight:700;color:var(--terra-deep)}
+.guess{font-family:var(--font-mono);font-size:.9rem;background:var(--paper-2);border-radius:4px;padding:1px 7px;margin-left:6px;white-space:nowrap}
+.entry.interlude .node{width:36px;height:36px;margin-top:0;background:var(--terra);display:grid;place-items:center;font:800 1.3rem/1 var(--font-display);color:var(--paper-3)}
+.aside-card{background:var(--paper-2);border:var(--stroke) dashed var(--ink);border-radius:var(--radius);padding:var(--pad)}
+.aside-card p:last-child{margin:0}
+
+/* Schéma de l'attention */
+.attn{margin:16px 0;display:grid;gap:16px}
+.attn-panel{background:var(--paper);border-radius:10px;padding:12px 14px}
+.attn-title{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin:0 0 6px}
+.attn svg{display:block;width:100%;max-width:560px;height:auto}
+.attn-cap{font-size:1rem;margin:8px 0 0}
+.mono-w{font-family:var(--font-mono);font-size:20px;fill:var(--ink)}
+.w-hot{font-weight:600;fill:var(--terra-deep)}
+.ann{font-family:var(--font-body);font-size:15px;font-weight:600;fill:var(--ink-2)}
+.ann-terra{fill:var(--terra-deep)}
+
+/* La taille */
+.scale-fig{margin:0}
+.scale-title{font-family:var(--font-display);font-weight:800;text-transform:uppercase;letter-spacing:.05em;margin:0 0 16px}
+.scale{display:grid;gap:18px}
+.srow{display:grid;grid-template-columns:8em minmax(0,1fr);gap:6px 16px;align-items:center}
+.sname{margin:0;font-family:var(--font-display);font-weight:800;font-size:1.55rem;line-height:1}
+.sname small{display:block;font-weight:600;font-size:.95rem;color:var(--ink-2);letter-spacing:.02em;margin-top:2px}
+.strack{height:32px;border-left:var(--stroke) solid var(--ink);position:relative}
+.sfill{position:absolute;left:0;top:3px;bottom:3px;width:calc(var(--w) * 1%);background:var(--terra);border:2px solid var(--ink);border-left:0;border-radius:0 4px 4px 0}
+.sval{margin:6px 0 0;font-family:var(--font-mono);font-size:.95rem;font-variant-numeric:tabular-nums}
+.count{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:14px 0 20px}
+.count > div{border-top:var(--stroke) solid var(--ink);padding-top:10px}
+.cnum{font-family:var(--font-display);font-weight:800;font-size:clamp(2.1rem,5vw,3rem);line-height:1;margin:0;font-variant-numeric:tabular-nums}
+.count > div:last-child .cnum{color:var(--terra-deep)}
+.clab{margin:6px 0 0;font-size:1rem}
+
+/* Un tout petit monde */
+.people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.person{border-top:var(--stroke) solid var(--ink);padding-top:12px;min-width:0}
+.person h3{margin:0 0 6px}
+.person p{margin:0;font-size:1.02rem}
+.years{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px;padding:0}
+.years li{font-family:var(--font-mono);font-size:.84rem;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px;background:var(--paper-3)}
+
+/* À retenir */
+.keep{list-style:none;margin:0;padding:0;display:grid;gap:16px;max-width:46em}
+.keep li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:16px;align-items:start;font-family:var(--font-display);font-weight:700;font-size:clamp(1.35rem,2.7vw,1.8rem);line-height:1.15}
+.keep li::before{content:"";width:18px;height:18px;margin-top:.22em;background:var(--terra);border:var(--stroke) solid var(--ink);border-radius:3px}
+.keep li:last-child{color:var(--terra-deep)}
+
+/* Lexique */
+.lex{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 36px;margin:0}
+.lex div{border-top:1.5px solid var(--ink-2);padding-top:10px;min-width:0}
+.lex dt{font-family:var(--font-display);font-weight:700;font-size:1.4rem;line-height:1.1}
+.lex dd{margin:4px 0 0}
+
+/* Quiz */
+.quiz{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:q}
+.q{counter-increment:q;background:var(--paper-3);border:var(--stroke) solid var(--ink);border-radius:var(--radius);padding:16px 18px}
+.qs{font-weight:600;font-size:1.15rem;margin:0 0 12px}
+.qs::before{content:counter(q) " / 5";display:block;font-family:var(--font-display);font-weight:800;letter-spacing:.06em;font-size:.95rem;color:var(--terra-deep)}
+.qa{display:flex;flex-wrap:wrap;gap:10px}
+.fb{font-weight:700;margin:12px 0 4px}
+.fb:empty{display:none}
+.fb.good{color:var(--sage-deep)}
+.fb.bad{color:var(--terra-deep)}
+.ex{margin:0}
+.quiz-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.score{margin:0;font-family:var(--font-display);font-weight:800;font-size:1.5rem;text-transform:uppercase;letter-spacing:.03em}
+
+/* Sources et pied */
+.sources p{max-width:46em}
+.refs{padding-left:1.1em;margin:0 0 12px;font-size:1rem;display:grid;gap:4px}
+.foot{margin-top:clamp(56px,8vw,90px);background:var(--sage);color:var(--ink)}
+.foot .wrap{padding-block:18px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.foot p{margin:0}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .proto{grid-template-columns:minmax(0,1fr);gap:20px;padding-left:38px}
+  .proto::before{left:10px;right:auto;top:0;bottom:0;width:var(--stroke);height:auto}
+  .proto li{padding-top:0}
+  .proto li::before{left:-38px;top:3px}
+  .people{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .criteria,.tester,.lex,.count,.pair{grid-template-columns:minmax(0,1fr)}
+  .people{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  :root{--rail:46px}
+  .entry.major .node{width:46px;height:46px}
+  .entry.major .node svg{width:30px;height:30px}
+  .entry.chapter .node{width:24px;height:24px}
+  .node{width:18px;height:18px}
+  .srow{grid-template-columns:minmax(0,1fr)}
+  .bars li{grid-template-columns:minmax(5.6em,7em) minmax(0,1fr) 3.2em;gap:8px;font-size:.9rem}
+  .dialog p{grid-template-columns:minmax(0,1fr);gap:0}
+  .attn{margin-inline:calc(-1 * var(--pad) + 4px)}
+  .attn-panel{padding:10px 6px}
+  .attn-title,.attn-cap{padding-inline:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .caret{animation:none}
+  .btn,details.more summary::before{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="site" lang="fr">
+
+<header>
+  <div class="band"><div class="wrap">Infographie · Histoire de l'IA</div></div>
+  <div class="wrap hero">
+    <div>
+      <h1>Comment les machines ont appris à parler</h1>
+      <div class="lede">
+        <p>ChatGPT arrive fin 2022. Son histoire commence onze ans plus tôt, dans une poignée de laboratoires, avec un jeu d'enfant : deviner la suite d'un texte.</p>
+        <p>Les scientifiques visaient des objectifs modestes : compresser des fichiers, classer des phrases, traduire. Des machines capables d'écrire sur n'importe quel sujet sont arrivées par surprise, en 2019.</p>
+      </div>
+      <p class="meta">15 min de lecture · Sans prérequis · Tout public</p>
+    </div>
+    <figure class="hero-fig">
+      <svg viewBox="0 0 520 250" role="img" aria-labelledby="hero-t hero-d">
+        <title id="hero-t">Le jeu du mot suivant</title>
+        <desc id="hero-d">Une phrase en tuiles : « Il pleut, je prends mon ». La dernière tuile porte un point d'interrogation. Au-dessus, les paris de la machine : parapluie 64 %, manteau 21 %, temps 9 %.</desc>
+        <text x="248" y="20" class="h-cap">LES PARIS DE LA MACHINE</text>
+        <text x="236" y="51" class="h-lab" text-anchor="end">parapluie</text>
+        <rect x="248" y="34" width="200" height="24" rx="4" class="s-sage"/>
+        <text x="458" y="51" class="h-val">64 %</text>
+        <text x="236" y="89" class="h-lab" text-anchor="end">manteau</text>
+        <rect x="248" y="72" width="66" height="24" rx="4" class="s-sage"/>
+        <text x="324" y="89" class="h-val">21 %</text>
+        <text x="236" y="127" class="h-lab" text-anchor="end">temps</text>
+        <rect x="248" y="110" width="28" height="24" rx="4" class="s-sage"/>
+        <text x="286" y="127" class="h-val">9 %</text>
+        <path d="M468 176 C 468 160, 452 150, 428 147" class="ln"/>
+        <circle cx="422" cy="146" r="5.5" class="s-terra"/>
+        <path d="M506 168 l7 -7 M510 186 h8 M492 162 l2 -9" class="ln-sage"/>
+        <rect x="18" y="176" width="136" height="56" rx="8" class="s-paper"/>
+        <text x="86" y="213" class="tile-t" text-anchor="middle">IL PLEUT,</text>
+        <rect x="162" y="176" width="58" height="56" rx="8" class="s-paper"/>
+        <text x="191" y="213" class="tile-t" text-anchor="middle">JE</text>
+        <rect x="228" y="176" width="112" height="56" rx="8" class="s-paper"/>
+        <text x="284" y="213" class="tile-t" text-anchor="middle">PRENDS</text>
+        <rect x="348" y="176" width="80" height="56" rx="8" class="s-paper"/>
+        <text x="388" y="213" class="tile-t" text-anchor="middle">MON</text>
+        <rect x="436" y="176" width="64" height="56" rx="8" class="s-terra"/>
+        <text x="468" y="216" class="tile-q" text-anchor="middle">?</text>
+      </svg>
+      <figcaption>Chaque mot écrit par une IA naît d'un pari de ce genre.</figcaption>
+    </figure>
+  </div>
+  <nav class="wrap toc" aria-label="Sommaire">
+    <div class="toc-in">
+      <p class="toc-label">Au programme</p>
+      <ol>
+        <li><a href="#mecanisme">Le mot suivant</a></li>
+        <li><a href="#grille">Parler, c'est quoi ?</a></li>
+        <li><a href="#avant">Avant 2011</a></li>
+        <li><a href="#frise">La frise</a></li>
+        <li><a href="#taille">La taille</a></li>
+        <li><a href="#monde">Un petit monde</a></li>
+        <li><a href="#retenir">À retenir</a></li>
+        <li><a href="#lexique">Lexique</a></li>
+        <li><a href="#quiz-section">Vrai ou faux</a></li>
+      </ol>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap">
+
+<!-- LE MÉCANISME -->
+<section class="block" id="mecanisme" aria-labelledby="t-jeu">
+  <p class="eyebrow">Le mécanisme</p>
+  <h2 id="t-jeu">Un seul jeu : deviner le mot suivant</h2>
+  <p class="intro">Toutes les IA qui écrivent (ChatGPT, Claude, Gemini, Le Chat…) reposent sur le même exercice. Elles lisent le début d'un texte et parient sur le mot qui vient ensuite. Essaie à ton tour, en trois manches.</p>
+
+  <div class="panel game" id="jeu">
+    <div class="round">
+      <p class="round-label">Manche 1 sur 3</p>
+      <p class="round-prompt">« Il pleut. Avant de sortir, je prends mon <span class="blank">…</span> »</p>
+      <div class="choices" role="group" aria-label="Choisis le mot suivant">
+        <button type="button" class="btn choice" data-word="parapluie" aria-pressed="false">parapluie</button>
+        <button type="button" class="btn choice" data-word="manteau" aria-pressed="false">manteau</button>
+        <button type="button" class="btn choice" data-word="temps" aria-pressed="false">temps</button>
+        <button type="button" class="btn choice" data-word="vélo" aria-pressed="false">vélo</button>
+      </div>
+      <div class="bets" hidden>
+        <p class="bets-title">Les paris de la machine</p>
+        <ul class="bars">
+          <li data-word="parapluie" style="--p:64"><span class="w">parapluie</span><span class="track"><span class="fill"></span></span><span class="v">64 %</span></li>
+          <li data-word="manteau" style="--p:21"><span class="w">manteau</span><span class="track"><span class="fill"></span></span><span class="v">21 %</span></li>
+          <li data-word="temps" style="--p:9"><span class="w">temps</span><span class="track"><span class="fill"></span></span><span class="v">9 %</span></li>
+          <li data-word="vélo" style="--p:4"><span class="w">vélo</span><span class="track"><span class="fill"></span></span><span class="v">4 %</span></li>
+          <li class="other" style="--p:2"><span class="w">autres mots</span><span class="track"><span class="fill"></span></span><span class="v">2 %</span></li>
+        </ul>
+        <p class="feedback" aria-live="polite"></p>
+        <p class="lesson">La machine répartit ses paris entre plusieurs suites possibles. Ici, « parapluie » arrive largement en tête.</p>
+        <button type="button" class="btn btn-primary next">Manche suivante</button>
+      </div>
+    </div>
+
+    <div class="round" hidden>
+      <p class="round-label">Manche 2 sur 3</p>
+      <p class="round-prompt">« Il fait grand soleil. Je suis en retard, je prends mon <span class="blank">…</span> »</p>
+      <div class="choices" role="group" aria-label="Choisis le mot suivant">
+        <button type="button" class="btn choice" data-word="parapluie" aria-pressed="false">parapluie</button>
+        <button type="button" class="btn choice" data-word="manteau" aria-pressed="false">manteau</button>
+        <button type="button" class="btn choice" data-word="temps" aria-pressed="false">temps</button>
+        <button type="button" class="btn choice" data-word="vélo" aria-pressed="false">vélo</button>
+      </div>
+      <div class="bets" hidden>
+        <p class="bets-title">Les paris de la machine</p>
+        <ul class="bars">
+          <li data-word="vélo" style="--p:47"><span class="w">vélo</span><span class="track"><span class="fill"></span></span><span class="v">47 %</span></li>
+          <li data-word="manteau" style="--p:5"><span class="w">manteau</span><span class="track"><span class="fill"></span></span><span class="v">5 %</span></li>
+          <li data-word="temps" style="--p:3"><span class="w">temps</span><span class="track"><span class="fill"></span></span><span class="v">3 %</span></li>
+          <li data-word="parapluie" style="--p:1"><span class="w">parapluie</span><span class="track"><span class="fill"></span></span><span class="v">1 %</span></li>
+          <li class="other" style="--p:44"><span class="w">autres mots</span><span class="track"><span class="fill"></span></span><span class="v">44 %</span></li>
+        </ul>
+        <p class="feedback" aria-live="polite"></p>
+        <p class="lesson">Mêmes mots candidats, autres paris. Tout dépend de ce qui précède : avec du soleil et du retard, « vélo » passe devant, « temps » s'effondre. Les autres mots (sac, café, scooter…) se partagent le reste.</p>
+        <button type="button" class="btn btn-primary next">Manche suivante</button>
+      </div>
+    </div>
+
+    <div class="round" hidden>
+      <p class="round-label">Manche 3 sur 3</p>
+      <p class="round-prompt">« Léa cherche ses clés partout : dans son sac, sous le canapé, dans la voiture. Le soir, elle les retrouve dans la poche de son <span class="blank">…</span> »</p>
+      <div class="choices" role="group" aria-label="Choisis le mot suivant">
+        <button type="button" class="btn choice" data-word="manteau" aria-pressed="false">manteau</button>
+        <button type="button" class="btn choice" data-word="pantalon" aria-pressed="false">pantalon</button>
+        <button type="button" class="btn choice" data-word="sac" aria-pressed="false">sac</button>
+        <button type="button" class="btn choice" data-word="chat" aria-pressed="false">chat</button>
+      </div>
+      <div class="bets" hidden>
+        <p class="bets-title">Les paris de la machine</p>
+        <ul class="bars">
+          <li data-word="manteau" style="--p:51"><span class="w">manteau</span><span class="track"><span class="fill"></span></span><span class="v">51 %</span></li>
+          <li data-word="pantalon" style="--p:34"><span class="w">pantalon</span><span class="track"><span class="fill"></span></span><span class="v">34 %</span></li>
+          <li data-word="sac" style="--p:3"><span class="w">sac</span><span class="track"><span class="fill"></span></span><span class="v">3 %</span></li>
+          <li data-word="chat" style="--p:1"><span class="w">chat</span><span class="track"><span class="fill"></span></span><span class="v">1 %</span></li>
+          <li class="other" style="--p:11"><span class="w">autres mots</span><span class="track"><span class="fill"></span></span><span class="v">11 %</span></li>
+        </ul>
+        <p class="feedback" aria-live="polite"></p>
+        <p class="lesson">Léa a déjà fouillé son sac. Une machine bien entraînée en tient compte et parie très peu sur « sac ». Pour deviner juste, il faut suivre l'histoire.</p>
+        <button type="button" class="btn btn-primary next">Rejouer</button>
+      </div>
+    </div>
+    <p class="small-note">Pourcentages inventés pour l'exemple.</p>
+  </div>
+
+  <p class="after-game">Pendant son entraînement, une IA joue à ce jeu des milliards de fois. À chaque erreur, on ajuste un tout petit peu ses réglages internes. Peu à peu, ses paris deviennent bons.</p>
+
+  <div class="writer-block">
+    <h3>Écrire, c'est rejouer ce jeu en boucle</h3>
+    <p class="intro">Pour écrire, la machine tire un mot, l'ajoute au texte, puis parie sur le suivant. Encore et encore, jusqu'au point final. Avance mot par mot.</p>
+    <div class="panel writer" id="ecrire">
+      <p class="writer-text"><span class="prompt">Il pleut. Avant de sortir, je prends mon</span><span class="gen"></span><span class="caret" aria-hidden="true"></span></p>
+      <p class="last" aria-live="polite">La machine n'a encore rien écrit.</p>
+      <div class="next-bets"><span class="nb-label">Paris pour le mot suivant :</span><span class="chips"><span class="chip">parapluie 64 %</span><span class="chip">manteau 21 %</span><span class="chip">temps 9 %</span></span></div>
+      <p class="random-note" hidden></p>
+      <button type="button" class="btn btn-primary step-btn">Mot suivant</button>
+      <ol class="steps" hidden>
+        <li data-pick="parapluie" data-bets="parapluie:64|manteau:21|temps:9"></li>
+        <li data-pick="et" data-bets="point:41|et:33|virgule:14"></li>
+        <li data-pick="je" data-bets="je:61|mes:12|mon:9"></li>
+        <li data-pick="cours" data-bets="cours:35|sors:30|file:18"></li>
+        <li data-pick="jusqu'au" data-bets="jusqu'au:28|vers:21|à:17"></li>
+        <li data-pick="bus" data-bets="bus:46|métro:24|travail:9"></li>
+        <li data-pick="." data-label="point" data-bets="point:81|virgule:9|pour:5"></li>
+      </ol>
+    </div>
+    <p class="why"><strong>Pourquoi une IA répond-elle différemment à la même question ?</strong> Elle tire chaque mot au sort, en suivant ses paris. Le mot favori sort le plus souvent. Un autre sort de temps en temps. Le texte prend alors une autre direction.</p>
+    <p class="small-note">Une vraie machine choisit parmi des dizaines de milliers de mots et de morceaux de mots, appelés jetons.</p>
+  </div>
+</section>
+
+<!-- LA GRILLE -->
+<section class="block" id="grille" aria-labelledby="t-grille">
+  <p class="eyebrow">La grille</p>
+  <h2 id="t-grille">Parler, c'est quoi au juste ?</h2>
+  <p class="intro">Aligner des mots dans un ordre correct, des programmes le font depuis des décennies. Dans son livre <cite>La parole aux machines</cite>, le philosophe Thibaut Giraud (Monsieur Phi sur YouTube) propose une grille plus exigeante : parler, c'est cocher trois cases à la fois.</p>
+  <div class="criteria">
+    <div class="crit">
+      <svg viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+        <path d="M28 5v8M28 43v8M5 28h8M43 28h8M11.7 11.7l5.7 5.7M38.6 38.6l5.7 5.7M44.3 11.7l-5.7 5.7M17.4 38.6l-5.7 5.7" class="ln-sage"/>
+        <circle cx="28" cy="28" r="9" class="s-terra"/>
+      </svg>
+      <h3>Du neuf</h3>
+      <p>Des phrases que personne n'a jamais écrites. C'est le cas de presque tout ce que tu dis dans une journée.</p>
+    </div>
+    <div class="crit">
+      <svg viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+        <path d="M8 42 C 18 42, 17 16, 28 16 S 38 40, 48 14" class="ln"/>
+        <circle cx="8" cy="42" r="5" class="s-sage"/>
+        <circle cx="28" cy="16" r="5" class="s-paper"/>
+        <circle cx="48" cy="14" r="5" class="s-terra"/>
+      </svg>
+      <h3>Un fil</h3>
+      <p>Un texte qui tient debout sur plusieurs paragraphes et suit une idée du début à la fin.</p>
+    </div>
+    <div class="crit">
+      <svg viewBox="0 0 56 56" aria-hidden="true" focusable="false">
+        <circle cx="16" cy="16" r="9" class="s-terra"/>
+        <path d="M40 7 L49 23 L31 23 Z" class="s-sage"/>
+        <rect x="8" y="32" width="16" height="16" rx="2" class="s-paper"/>
+        <path d="M40 31 L49 40 L40 49 L31 40 Z" class="s-terra"/>
+      </svg>
+      <h3>S'adapte au contexte</h3>
+      <p>Le texte répond à ce qu'on lui donne (une question, un début d'histoire, un style), quel que soit le sujet.</p>
+    </div>
+  </div>
+
+  <div class="panel tester" id="testeur">
+    <div>
+      <h3>Teste la grille</h3>
+      <p class="tester-help">Choisis un candidat :</p>
+      <div class="cands" role="group" aria-label="Candidats">
+        <button type="button" class="btn cand" data-key="humain" data-n="1" data-f="1" data-s="1" aria-pressed="true">Un être humain</button>
+        <button type="button" class="btn cand" data-key="mit" data-n="1" data-f="1" data-s="0" aria-pressed="false">Programme de westerns, MIT, vers 1960</button>
+        <button type="button" class="btn cand" data-key="auto" data-n="1" data-f="0" data-s="1" aria-pressed="false">Autocomplétion du téléphone</button>
+        <button type="button" class="btn cand" data-key="clever" data-n="0" data-f="0" data-s="1" aria-pressed="false">Cleverbot, chatbot vedette d'avant 2019</button>
+        <button type="button" class="btn cand" data-key="trad" data-n="0" data-f="1" data-s="1" aria-pressed="false">Traducteur automatique de 2019</button>
+        <button type="button" class="btn cand" data-key="gpt2" data-n="1" data-f="1" data-s="1" aria-pressed="false"><span class="nw">GPT-2</span>, 2019</button>
+      </div>
+    </div>
+    <div class="verdict" aria-live="polite">
+      <p class="verdict-name">Un être humain</p>
+      <ul class="verdict-list" aria-label="Cases cochées">
+        <li class="pill oui" data-crit="n">Du neuf <span class="ans">oui</span></li>
+        <li class="pill oui" data-crit="f">Un fil <span class="ans">oui</span></li>
+        <li class="pill oui" data-crit="s">Le contexte <span class="ans">oui</span></li>
+      </ul>
+      <p class="vc" data-for="humain">Trois cases sur trois. Jusqu'en 2019, l'humain est le seul candidat à les cocher toutes.</p>
+      <p class="vc" data-for="mit" hidden>Il invente de petits scénarios cohérents grâce à des règles écrites à la main. Il ne sait raconter que des westerns.</p>
+      <p class="vc" data-for="auto" hidden>Elle suggère un mot adapté à ta phrase. Laissée seule, elle enchaîne des phrases sans queue ni tête.</p>
+      <p class="vc" data-for="clever" hidden>Il pioche dans une immense réserve de répliques humaines. Tout ce qu'il dit a déjà été écrit. La conversation se perd vite.</p>
+      <p class="vc" data-for="trad" hidden>Son texte tient debout, sur tous les sujets. Il suit pas à pas un texte qui existe déjà.</p>
+      <p class="vc" data-for="gpt2" hidden>Le premier programme à cocher les trois cases. Le fil reste fragile : il faut souvent plusieurs essais pour obtenir un bon texte.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AVANT 2011 -->
+<section class="block" id="avant" aria-labelledby="t-avant">
+  <p class="eyebrow">Avant 2011</p>
+  <h2 id="t-avant">L'IA a 70 ans. Les machines qui parlent en ont 7.</h2>
+  <p class="intro">Pendant des siècles, le langage passe pour la marque de la pensée. Les premières machines « bavardes » récitent des phrases préparées par des humains.</p>
+  <ol class="proto">
+    <li><p class="y">1637</p><p class="who">René Descartes</p><p>Dans le <cite>Discours de la méthode</cite>, il écrit qu'une machine ne saura jamais arranger des paroles pour répondre au sens de tout ce qu'on lui dit. Pour lui, c'est la marque d'un esprit qui pense.</p></li>
+    <li><p class="y">1950</p><p class="who">Alan Turing</p><p>Il remplace la question « Une machine peut-elle penser ? » par un test : tenir une conversation écrite sans se faire démasquer.</p></li>
+    <li><p class="y">1956</p><p class="who">Dartmouth, États-Unis</p><p>Un atelier d'été réunit des pionniers autour d'une expression nouvelle : « intelligence artificielle ». On date de là la naissance du domaine.</p></li>
+    <li><p class="y">Vers 1960</p><p class="who">MIT</p><p>Dans un documentaire télévisé, un ordinateur écrit de petits scénarios de western, à partir de règles écrites à la main.</p></li>
+    <li><p class="y">1966</p><p class="who">ELIZA</p><p>Ce programme imite un·e psychothérapeute en reformulant tes propres phrases. Des personnes lui confient leurs secrets, à la surprise de son créateur, Joseph Weizenbaum.</p></li>
+  </ol>
+</section>
+
+<!-- LA FRISE -->
+<section class="block" id="frise" aria-labelledby="t-frise">
+  <p class="eyebrow">La frise</p>
+  <h2 id="t-frise">De la devinette à ChatGPT</h2>
+  <div class="legend">
+    <p><span class="lg-node" aria-hidden="true"></span>Les grands ronds marquent les tournants.</p>
+    <p><span class="lg-mono">Cette police</span>signale un texte écrit par une machine, traduit de l'anglais.</p>
+    <p><span class="pill oui">Du neuf</span>La grille indique les cases cochées.</p>
+  </div>
+
+  <div class="tl">
+
+    <div class="entry chapter">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="chap-band">Chapitre 1 · 2011-2016</p>
+        <h3 class="chap-title">Des machines qui devinent des lettres</h3>
+      </div>
+    </div>
+
+    <article class="entry major">
+      <span class="node" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <rect x="2.5" y="11" width="10.5" height="17" rx="2.5" class="s-paper"/>
+          <rect x="14.75" y="11" width="10.5" height="17" rx="2.5" class="s-paper"/>
+          <rect x="27" y="11" width="10.5" height="17" rx="2.5" class="s-terra"/>
+          <path d="M5.6 20.5h4.3M17.8 17.5v6.5M17.8 21.6h4.1" class="ln thin"/>
+          <path d="M30.4 17.3c.4-1.6 4-1.6 4 .4 0 1.5-1.9 1.6-1.9 3.2" class="ln thin" style="stroke:var(--paper-3)"/>
+          <circle cx="32.5" cy="24.2" r="1.1" style="fill:var(--paper-3)"/>
+        </svg>
+      </span>
+      <div class="card">
+        <p class="when"><strong>2011</strong><span>Université de Toronto</span></p>
+        <h4 class="entry-title">Deviner la lettre suivante</h4>
+        <p>Ilya Sutskever, James Martens et Geoffrey Hinton font lire 100 Mo d'articles de Wikipédia à un réseau de neurones. Sa seule tâche : deviner la lettre qui vient ensuite.</p>
+        <dl class="pair">
+          <div><dt>Le but</dt><dd>Mieux compresser des fichiers de texte.</dd></div>
+          <div><dt>Ce qui arrive</dt><dd>Sans aucune leçon de grammaire, le programme apprend à refermer les parenthèses qu'il ouvre.</dd></div>
+        </dl>
+        <figure class="specimen">
+          <figcaption>Texte de machine · 2011</figcaption>
+          <blockquote><p>« Le sens de la vie est la tradition de l'antique reproduction humaine… »</p></blockquote>
+          <p class="sp-note">La suite part en vrille. Le ton encyclopédique, lui, est déjà là.</p>
+        </figure>
+        <ul class="grille" aria-label="Grille des trois cases">
+          <li class="pill oui"><span class="vh">Oui : </span>Du neuf</li>
+          <li class="pill non"><span class="vh">Non : </span>Un fil</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Le contexte</li>
+        </ul>
+        <details class="more">
+          <summary>Pour aller plus loin</summary>
+          <p>Le programme s'entraîne cinq jours sur huit cartes graphiques. L'article se termine sur une intuition : des modèles beaucoup plus gros, nourris de beaucoup plus de calcul, pourraient aller bien plus loin. Ilya Sutskever cofondera OpenAI quatre ans plus tard.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>2012</strong><span>Université de Toronto</span></p>
+        <h4 class="entry-title">L'apprentissage profond décolle</h4>
+        <p>AlexNet, un réseau de neurones à plusieurs couches, écrase la concurrence en reconnaissance d'images. Deux de ses trois auteurs signaient l'article de 2011. Les machines apprennent à voir. Le langage résiste.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Mai 2015</strong><span>Université Stanford</span></p>
+        <h4 class="entry-title">Un faux Shakespeare</h4>
+        <p>Le doctorant Andrej Karpathy publie sur son blog des textes générés lettre par lettre : du faux Shakespeare, du faux code informatique, de fausses formules mathématiques. L'allure trompe l'œil. Le sens est absent.</p>
+        <p class="aside-line">Titre du billet : « L'efficacité déraisonnable des réseaux de neurones récurrents ».</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Juin 2015</strong><span>Google</span></p>
+        <h4 class="entry-title">Un chatbot nourri aux sous-titres de films</h4>
+        <p>Oriol Vinyals et Quoc Le entraînent un programme sur des millions de répliques de films. Leur méthode, mise au point un an plus tôt avec Ilya Sutskever, servait à traduire.</p>
+        <figure class="specimen dialog">
+          <figcaption>Conversation avec une machine · 2015</figcaption>
+          <p><span class="who">Humain</span><span>Combien de pattes a un chat ?</span></p>
+          <p class="m"><span class="who">Machine</span><span>Quatre, je crois.</span></p>
+          <p><span class="who">Humain</span><span>Combien de pattes a une araignée ?</span></p>
+          <p class="m"><span class="who">Machine</span><span>Trois, je crois.</span></p>
+        </figure>
+        <ul class="grille" aria-label="Grille des trois cases">
+          <li class="pill oui"><span class="vh">Oui : </span>Du neuf</li>
+          <li class="pill non"><span class="vh">Non : </span>Un fil</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Le contexte</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Décembre 2015</strong><span>San Francisco</span></p>
+        <h4 class="entry-title">Naissance d'OpenAI</h4>
+        <p>Un laboratoire à but non lucratif, cofondé entre autres par Ilya Sutskever, qui promet de partager ses recherches. Ses projets les plus visibles portent sur les jeux vidéo, dont une IA pour Dota 2. Le langage occupe une petite équipe.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Mars 2016</strong><span>Séoul</span></p>
+        <h4 class="entry-title">AlphaGo bat Lee Sedol</h4>
+        <p>L'IA de DeepMind bat la star mondiale du go, quatre parties à une. Quelques années plus tôt, l'exploit paraissait inimaginable. Le monde de l'IA se passionne pour les jeux.</p>
+      </div>
+    </article>
+
+    <div class="entry chapter">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="chap-band">Chapitre 2 · 2017-2018</p>
+        <h3 class="chap-title">La machine trouve sa forme</h3>
+      </div>
+    </div>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Janvier 2017</strong><span>Google</span></p>
+        <h4 class="entry-title">Des réseaux « outrageusement gros »</h4>
+        <p>Une équipe de Google, avec Geoffrey Hinton, entraîne un modèle de langage de 137 milliards de réglages. Elle mesure ses performances sous tous les angles. L'article ne lui fait écrire aucune phrase.</p>
+        <details class="more">
+          <summary>Pourquoi personne ne le fait écrire ?</summary>
+          <p>Les modèles de l'époque sont jugés sur leur capacité à prévoir le mot suivant, phrase par phrase. Le grand corpus de référence, un milliard de mots tirés d'articles de presse, a même ses phrases mélangées au hasard : aucun texte suivi au-delà d'une phrase. Écrire de longs textes cohérents ne figure tout simplement pas au programme.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Avril 2017</strong><span>OpenAI</span></p>
+        <h4 class="entry-title">Le neurone du sentiment</h4>
+        <p>Alec Radford fait deviner la lettre suivante de 82 millions d'avis de clients Amazon. Le programme ne voit jamais les notes attribuées aux produits. Il développe pourtant, tout seul, un « neurone » qui suit le ton de l'avis, positif ou négatif.</p>
+        <dl class="pair">
+          <div><dt>Le but</dt><dd>Apprendre des choses utiles sans étiqueter les données à la main.</dd></div>
+          <div><dt>Ce qui arrive</dt><dd>En réglant ce neurone, on lui fait écrire des avis ravis ou furieux, à la demande.</dd></div>
+        </dl>
+        <figure class="specimen">
+          <figcaption>Textes de machine · 2017</figcaption>
+          <p class="m"><span class="lab">Neurone réglé sur positif</span>« Exactement ce que je cherchais. »</p>
+          <p class="m"><span class="lab">Neurone réglé sur négatif</span>« Une perte de temps et d'argent. »</p>
+        </figure>
+      </div>
+    </article>
+
+    <article class="entry major">
+      <span class="node" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <path d="M30 27 C30 5, 12 5, 12 27" class="ln-terra"/>
+          <path d="M30 27 C30 17, 24 17, 24 27" class="ln"/>
+          <path d="M3 34h34" class="ln thin"/>
+          <circle cx="6" cy="30.5" r="2.4" class="s-ink"/>
+          <circle cx="12" cy="30.5" r="2.4" class="s-ink"/>
+          <circle cx="18" cy="30.5" r="2.4" class="s-ink"/>
+          <circle cx="24" cy="30.5" r="2.4" class="s-ink"/>
+          <circle cx="30" cy="30" r="3.6" class="s-terra"/>
+          <circle cx="36" cy="30.5" r="2.4" class="s-ink"/>
+        </svg>
+      </span>
+      <div class="card">
+        <p class="when"><strong>Juin 2017</strong><span>Google</span></p>
+        <h4 class="entry-title">Le transformer, le T de GPT</h4>
+        <p>Huit scientifiques de Google publient « Attention Is All You Need » (« L'attention suffit »), un titre qui joue avec une chanson des Beatles. Ils y décrivent une nouvelle forme de réseau de neurones : le transformer.</p>
+        <figure class="attn">
+          <div class="attn-panel">
+            <p class="attn-title">Avant 2017 : un mot après l'autre</p>
+            <svg viewBox="8 0 414 96" role="img" aria-label="Lecture mot après mot de la phrase « Le chat fixe le vase : il miaule. » Au moment de lire « il », les premiers mots se sont presque effacés.">
+              <defs>
+                <marker id="fl" viewBox="0 0 8 8" refX="6.5" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L8 4 L0 8 Z" class="s-ink"/></marker>
+              </defs>
+              <text x="76" y="16" class="ann" text-anchor="middle">presque effacé</text>
+              <path d="M76 22 V38" class="ln thin"/>
+              <g class="mono-w">
+                <text x="28" y="60" text-anchor="middle" opacity=".22">Le</text>
+                <text x="76" y="60" text-anchor="middle" opacity=".3">chat</text>
+                <text x="136" y="60" text-anchor="middle" opacity=".45">fixe</text>
+                <text x="184" y="60" text-anchor="middle" opacity=".55">le</text>
+                <text x="232" y="60" text-anchor="middle" opacity=".7">vase</text>
+                <text x="274" y="60" text-anchor="middle" opacity=".85">:</text>
+                <text x="304" y="60" text-anchor="middle" class="w-hot">il</text>
+                <text x="370" y="60" text-anchor="middle" opacity=".25">miaule.</text>
+              </g>
+              <path d="M36 70 Q52 86 66 72" class="ln thin" marker-end="url(#fl)"/>
+              <path d="M88 70 Q108 86 124 72" class="ln thin" marker-end="url(#fl)"/>
+              <path d="M148 70 Q162 86 174 72" class="ln thin" marker-end="url(#fl)"/>
+              <path d="M194 70 Q210 86 222 72" class="ln thin" marker-end="url(#fl)"/>
+              <path d="M242 70 Q256 86 268 72" class="ln thin" marker-end="url(#fl)"/>
+              <path d="M280 70 Q290 86 298 72" class="ln thin" marker-end="url(#fl)"/>
+            </svg>
+            <p class="attn-cap">Le programme lit les mots un par un et garde un résumé de taille fixe. Au moment de lire « il », le mot « chat » s'est presque effacé.</p>
+          </div>
+          <div class="attn-panel">
+            <p class="attn-title">Depuis 2017 : tout le texte d'un coup</p>
+            <svg viewBox="8 0 414 128" role="img" aria-label="Le transformer relie le mot « il » à tous les autres. Le lien le plus fort va vers « chat », un lien moyen vers « miaule », un lien faible vers « vase ».">
+              <rect x="49" y="93" width="54" height="29" rx="5" class="s-flat-sage"/>
+              <path d="M304 92 C304 16, 76 16, 76 92" class="ln-terra thick"/>
+              <path d="M304 92 C304 58, 370 58, 370 92" class="ln"/>
+              <path d="M304 92 C304 64, 232 64, 232 92" class="ln dashed"/>
+              <text x="190" y="24" class="ann ann-terra" text-anchor="middle">attention forte</text>
+              <text x="372" y="56" class="ann" text-anchor="middle">moyenne</text>
+              <g class="mono-w">
+                <text x="28" y="114" text-anchor="middle">Le</text>
+                <text x="76" y="114" text-anchor="middle">chat</text>
+                <text x="136" y="114" text-anchor="middle">fixe</text>
+                <text x="184" y="114" text-anchor="middle">le</text>
+                <text x="232" y="114" text-anchor="middle">vase</text>
+                <text x="274" y="114" text-anchor="middle">:</text>
+                <text x="304" y="114" text-anchor="middle" class="w-hot">il</text>
+                <text x="370" y="114" text-anchor="middle">miaule.</text>
+              </g>
+            </svg>
+            <p class="attn-cap">Le transformer garde tout le texte sous les yeux. Chaque mot peut « regarder » tous les autres. Pour interpréter « il », le modèle porte surtout son attention sur « chat » et sur « miaule ».</p>
+          </div>
+        </figure>
+        <dl class="pair">
+          <div><dt>Le but</dt><dd>Mieux traduire de l'anglais vers l'allemand et le français.</dd></div>
+          <div><dt>Ce qui arrive</dt><dd>Il bat les records de traduction après seulement trois jours et demi d'entraînement sur huit cartes graphiques.</dd></div>
+        </dl>
+        <p>Les grandes IA qui écrivent aujourd'hui reposent toutes sur cette invention.</p>
+      </div>
+    </article>
+
+    <article class="entry major">
+      <span class="node" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <rect x="5" y="26" width="30" height="8" rx="1.5" class="s-terra"/>
+          <rect x="8" y="17" width="25" height="8" rx="1.5" class="s-sage"/>
+          <rect x="6" y="8" width="27" height="8" rx="1.5" class="s-paper"/>
+          <path d="M11 26v8M14 17v8M11 8v8" class="ln thin"/>
+        </svg>
+      </span>
+      <div class="card">
+        <p class="when"><strong>Juin 2018</strong><span>OpenAI</span></p>
+        <h4 class="entry-title">GPT, un modèle sans nom</h4>
+        <p>L'équipe d'Alec Radford entraîne un transformer à deviner le mot suivant dans 7 000 livres jamais publiés : aventure, fantasy, romance. Le modèle compte 117 millions de réglages. Dans l'article, il n'a même pas de nom. On l'appellera plus tard <span class="nw">GPT-1</span>.</p>
+        <dl class="pair">
+          <div><dt>Le but</dt><dd>Un modèle de base, à spécialiser ensuite pour des tests de compréhension : dire si une phrase est correcte, si une critique de film est positive, si deux phrases se contredisent.</dd></div>
+          <div><dt>Ce qui arrive</dt><dd>Il bat le record sur 9 tests sur 12. L'article ne montre pas un seul texte écrit par le modèle.</dd></div>
+        </dl>
+        <figure class="specimen">
+          <figcaption>Texte de machine · <span class="nw">GPT-1</span></figcaption>
+          <blockquote><p>« Le projet a réussi à développer et à développer une nouvelle technologie appelée moteur à fusion. »</p></blockquote>
+          <p class="sp-note">Le texte tourne en rond. Exemple publié plus tard par OpenAI.</p>
+        </figure>
+        <ul class="grille" aria-label="Grille des trois cases">
+          <li class="pill oui"><span class="vh">Oui : </span>Du neuf</li>
+          <li class="pill non"><span class="vh">Non : </span>Un fil</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Le contexte</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Octobre 2018</strong><span>Google</span></p>
+        <h4 class="entry-title">BERT, champion du texte à trous</h4>
+        <p>Google entraîne BERT à retrouver des mots cachés au milieu des phrases. Il regarde à gauche et à droite du trou. Sur les tests de compréhension, il écrase GPT. Fin 2018, le domaine parie sur BERT.</p>
+        <div class="holes">
+          <p>Il plonge sa cuillère dans le <span class="hole">?</span><span class="guess">bol, café, pot…</span></p>
+          <p>Il plonge sa cuillère dans le <span class="hole">?</span> de confiture.<span class="guess">pot</span></p>
+        </div>
+        <p class="aside-line">Les mots situés après le trou aident à le remplir.</p>
+        <details class="more">
+          <summary>Une ironie de l'histoire</summary>
+          <p>D'après Monsieur Phi, le sigle « GPT » (Generative Pre-trained Transformer) apparaît pour la première fois par écrit dans un article de Google : celui de BERT. OpenAI l'adopte ensuite.</p>
+        </details>
+      </div>
+    </article>
+
+    <aside class="entry interlude" aria-labelledby="t-consensus">
+      <span class="node" aria-hidden="true">?</span>
+      <div class="aside-card">
+        <p class="when"><strong>Juste avant 2019</strong><span>Le consensus</span></p>
+        <h4 class="entry-title" id="t-consensus">« Loin d'être résolu »</h4>
+        <p>Dans un livre paru début 2020, Michael Wooldridge, professeur d'informatique à Oxford, range ces tâches parmi celles qu'on est loin de savoir confier à une machine :</p>
+        <ul class="sq">
+          <li>comprendre une histoire et répondre à des questions dessus ;</li>
+          <li>traduire aussi bien qu'un humain ;</li>
+          <li>décrire ce qui se passe sur une photo ;</li>
+          <li>écrire des histoires intéressantes ;</li>
+          <li>interpréter une œuvre d'art.</li>
+        </ul>
+        <p>Leur point commun : produire du langage sur n'importe quel sujet. Six ans plus tard, les IA qui écrivent s'attaquent à chacune d'elles.</p>
+      </div>
+    </aside>
+
+    <div class="entry chapter">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="chap-band">Chapitre 3 · 2019-2020</p>
+        <h3 class="chap-title">La surprise</h3>
+      </div>
+    </div>
+
+    <article class="entry major key">
+      <span class="node" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <path d="M7 7h26a3 3 0 0 1 3 3v15a3 3 0 0 1-3 3H19l-7 6v-6H7a3 3 0 0 1-3-3V10a3 3 0 0 1 3-3z" class="s-paper"/>
+          <path d="M10 13.5h20M10 18.5h20M10 23.5h11" class="ln"/>
+        </svg>
+      </span>
+      <div class="card">
+        <p class="key-band">Le tournant</p>
+        <p class="when"><strong>14 février 2019</strong><span>OpenAI</span></p>
+        <h4 class="entry-title"><span class="nw">GPT-2</span> se met à écrire</h4>
+        <p>OpenAI refait le même modèle, en dix fois plus gros : 1,5 milliard de réglages, entraînés sur 8 millions de pages web repérées grâce à Reddit. L'objectif reste modeste : un meilleur modèle de base.</p>
+        <p class="big-claim">En le testant, l'équipe découvre qu'il écrit des paragraphes qui tiennent debout, sur à peu près n'importe quel sujet.</p>
+        <figure class="specimen">
+          <figcaption>Début écrit par un humain, suite écrite par <span class="nw">GPT-2</span></figcaption>
+          <p class="human">« Des scientifiques ont découvert un troupeau de licornes vivant dans une vallée reculée des Andes. »</p>
+          <blockquote><p>« Le scientifique a baptisé la population “la licorne d'Ovide”, d'après sa corne caractéristique. »</p></blockquote>
+          <p class="sp-note">La suite tient sur plusieurs paragraphes. OpenAI précise avoir gardé le meilleur de dix essais.</p>
+        </figure>
+        <ul class="grille" aria-label="Grille des trois cases">
+          <li class="pill oui"><span class="vh">Oui : </span>Du neuf</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Un fil</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Le contexte</li>
+        </ul>
+        <p class="first3">Premier programme à cocher les trois cases.</p>
+        <ul class="facts">
+          <li><span>Ajoute « TL;DR: » à la fin d'un article (l'abréviation d'internet pour « trop long, pas lu ») : <span class="nw">GPT-2</span> en écrit un résumé. Personne ne lui a appris à résumer.</span></li>
+          <li><span>On avait retiré les pages en français de ses lectures. Il traduit pourtant un peu, grâce à 10 Mo de français restés dans 40 Go de texte, surtout des citations, soit 1/4 000e du total.</span></li>
+          <li><span>OpenAI retarde la publication de la version complète, par crainte d'abus : fausses nouvelles, spam. Elle la publie en novembre 2019.</span></li>
+        </ul>
+        <details class="more">
+          <summary>Prudence ou coup de communication ?</summary>
+          <p>La décision est souvent moquée comme un coup de communication. Monsieur Phi y voit une prudence raisonnable : l'équipe venait d'obtenir un outil dont personne ne connaissait les limites.</p>
+        </details>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Mars 2019</strong><span>Richard Sutton</span></p>
+        <h4 class="entry-title">La leçon amère</h4>
+        <p>Le chercheur Richard Sutton tire en une page la leçon de 70 ans de recherche en IA : sur le long terme, les méthodes générales qui profitent d'une puissance de calcul croissante l'emportent sur les connaissances humaines codées à la main. Amère, pour qui a passé sa carrière à coder ces connaissances.</p>
+      </div>
+    </article>
+
+    <article class="entry major">
+      <span class="node" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <rect x="3" y="30" width="4" height="4" class="s-ink"/>
+          <rect x="9.5" y="25" width="9" height="9" class="s-sage"/>
+          <rect x="20.5" y="16" width="17.5" height="18" class="s-terra"/>
+        </svg>
+      </span>
+      <div class="card">
+        <p class="when"><strong>Mai 2020</strong><span>OpenAI</span></p>
+        <h4 class="entry-title"><span class="nw">GPT-3</span>, cent fois plus gros</h4>
+        <p>Le modèle compte 175 milliards de réglages, cent fois <span class="nw">GPT-2</span>. L'article réunit 31 signataires, contre 4 pour <span class="nw">GPT-1</span> et 6 pour <span class="nw">GPT-2</span> : le langage est devenu la priorité d'OpenAI. Le philosophe David Chalmers le décrit aussitôt comme l'un des systèmes d'IA les plus intéressants et les plus importants jamais créés.</p>
+        <figure class="specimen">
+          <figcaption>Texte de machine · <span class="nw">GPT-3</span>, lettre en réponse à des philosophes</figcaption>
+          <blockquote><p>« Je ne fais que parler devant vous. »</p></blockquote>
+        </figure>
+        <ul class="grille" aria-label="Grille des trois cases">
+          <li class="pill oui"><span class="vh">Oui : </span>Du neuf</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Un fil</li>
+          <li class="pill oui"><span class="vh">Oui : </span>Le contexte</li>
+        </ul>
+        <p class="first3">Pour Monsieur Phi, c'est le moment où l'humanité perd le « monopole du langage ».</p>
+      </div>
+    </article>
+
+    <div class="entry chapter">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="chap-band">Chapitre 4 · 2022-2026</p>
+        <h3 class="chap-title">Tout le monde s'en sert</h3>
+      </div>
+    </div>
+
+    <article class="entry major">
+      <span class="node" aria-hidden="true">
+        <svg viewBox="0 0 40 40" focusable="false">
+          <rect x="11" y="3" width="18" height="34" rx="4" class="s-paper"/>
+          <rect x="14" y="9" width="10" height="6" rx="2" class="s-sage thin-s"/>
+          <rect x="16" y="18" width="10" height="6" rx="2" class="s-terra thin-s"/>
+          <path d="M18 31.5h4" class="ln"/>
+        </svg>
+      </span>
+      <div class="card">
+        <p class="when"><strong>30 novembre 2022</strong><span>OpenAI</span></p>
+        <h4 class="entry-title">ChatGPT ouvre la porte au grand public</h4>
+        <p>Une fenêtre de discussion, posée sur un modèle de la famille <span class="nw">GPT-3.5</span>. Les spécialistes connaissent déjà la technique. Le succès surprend tout le monde.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Mars 2023</strong><span>OpenAI</span></p>
+        <h4 class="entry-title"><span class="nw">GPT-4</span></h4>
+        <p>Encore un cran au-dessus. Ce qui paraissait impossible cinq ans plus tôt devient banal.</p>
+      </div>
+    </article>
+
+    <article class="entry">
+      <span class="node" aria-hidden="true"></span>
+      <div>
+        <p class="when"><strong>Aujourd'hui</strong><span>2026</span></p>
+        <h4 class="entry-title">Le même jeu, en bien plus fort</h4>
+        <p>Les IA qui écrivent rédigent, traduisent, résument, programment et s'attaquent à des problèmes de mathématiques de haut niveau. Au cœur, on retrouve le jeu de devinette du début, complété par d'autres entraînements.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- LA TAILLE -->
+<section class="block" id="taille" aria-labelledby="t-taille">
+  <p class="eyebrow">La taille</p>
+  <h2 id="t-taille">Même recette, en beaucoup plus gros</h2>
+  <p class="intro">De <span class="nw">GPT-1</span> à <span class="nw">GPT-3</span>, la méthode change peu. La taille explose. On la mesure en réglages internes, que les spécialistes appellent paramètres.</p>
+  <figure class="panel scale-fig">
+    <figcaption class="scale-title">Nombre de réglages, barres à l'échelle</figcaption>
+    <div class="scale">
+      <div class="srow">
+        <p class="sname"><span class="nw">GPT-1</span> <small>juin 2018</small></p>
+        <div><div class="strack"></div><p class="sval">117 millions, soit 0,07 % de <span class="nw">GPT-3</span> : trop petit pour apparaître</p></div>
+      </div>
+      <div class="srow">
+        <p class="sname"><span class="nw">GPT-2</span> <small>février 2019</small></p>
+        <div><div class="strack"><span class="sfill" style="--w:0.857"></span></div><p class="sval">1,5 milliard, soit 0,86 % de <span class="nw">GPT-3</span></p></div>
+      </div>
+      <div class="srow">
+        <p class="sname"><span class="nw">GPT-3</span> <small>mai 2020</small></p>
+        <div><div class="strack"><span class="sfill" style="--w:100"></span></div><p class="sval">175 milliards</p></div>
+      </div>
+    </div>
+  </figure>
+  <h3 class="count-title" style="margin-top:32px">Compte un réglage par seconde, jour et nuit</h3>
+  <div class="count">
+    <div><p class="cnum">3,7 ans</p><p class="clab">pour <span class="nw">GPT-1</span></p></div>
+    <div><p class="cnum">47,5 ans</p><p class="clab">pour <span class="nw">GPT-2</span></p></div>
+    <div><p class="cnum">5 545 ans</p><p class="clab">pour <span class="nw">GPT-3</span>, plus que l'âge de la grande pyramide de Gizeh (environ 4 500 ans)</p></div>
+  </div>
+  <p class="intro">C'est la « leçon amère » en action : la même recette, nourrie de toujours plus de calcul, finit par l'emporter.</p>
+</section>
+
+<!-- UN TOUT PETIT MONDE -->
+<section class="block" id="monde" aria-labelledby="t-monde">
+  <p class="eyebrow">La généalogie</p>
+  <h2 id="t-monde">Un tout petit monde</h2>
+  <p class="intro">Avant 2019, les modèles de langage occupent une niche de la recherche. Les mêmes noms reviennent d'une étape à l'autre.</p>
+  <div class="people">
+    <div class="person">
+      <h3>Ilya Sutskever</h3>
+      <ul class="years" aria-label="Années clés"><li>2011</li><li>2012</li><li>2014</li><li>2015</li><li>2017</li><li>2018</li><li>2019</li><li>2020</li></ul>
+      <p>Doctorant de Geoffrey Hinton, puis cofondateur et directeur scientifique d'OpenAI jusqu'en 2024. Présent à presque chaque étape.</p>
+    </div>
+    <div class="person">
+      <h3>Geoffrey Hinton</h3>
+      <ul class="years" aria-label="Années clés"><li>2011</li><li>2012</li><li>2017</li></ul>
+      <p>Un des pères de l'apprentissage profond. Prix Turing 2018, prix Nobel de physique 2024. Il alerte depuis plusieurs années sur les risques de l'IA.</p>
+    </div>
+    <div class="person">
+      <h3>Oriol Vinyals et Quoc Le</h3>
+      <ul class="years" aria-label="Années clés"><li>2014</li><li>2015</li><li>2016</li><li>2017</li></ul>
+      <p>Chez Google, coauteurs de la méthode de traduction de 2014, du chatbot de 2015 et de travaux sur les très grands modèles de langage.</p>
+    </div>
+    <div class="person">
+      <h3>Andrej Karpathy</h3>
+      <ul class="years" aria-label="Années clés"><li>2015</li></ul>
+      <p>Son billet de blog de 2015 fait découvrir la génération de texte à beaucoup de passionné·es. Il fait partie de l'équipe fondatrice d'OpenAI.</p>
+    </div>
+    <div class="person">
+      <h3>Alec Radford</h3>
+      <ul class="years" aria-label="Années clés"><li>2017</li><li>2018</li><li>2019</li><li>2020</li></ul>
+      <p>Chercheur à OpenAI, premier auteur du neurone du sentiment, de <span class="nw">GPT-1</span> et de <span class="nw">GPT-2</span>, cosignataire de <span class="nw">GPT-3</span>.</p>
+    </div>
+    <div class="person">
+      <h3>Dario Amodei</h3>
+      <ul class="years" aria-label="Années clés"><li>2019</li><li>2020</li></ul>
+      <p>Cosigne <span class="nw">GPT-2</span> et <span class="nw">GPT-3</span>, puis cofonde en 2021 Anthropic, l'entreprise qui développe Claude.</p>
+    </div>
+  </div>
+</section>
+
+<!-- À RETENIR -->
+<section class="block" id="retenir" aria-labelledby="t-retenir">
+  <p class="eyebrow">À retenir</p>
+  <h2 id="t-retenir">Cinq idées à garder en tête</h2>
+  <ul class="keep">
+    <li><span>Une IA qui écrit joue à deviner la suite, un mot après l'autre.</span></li>
+    <li><span>Elle déduit seule la grammaire de milliards d'exemples.</span></li>
+    <li><span>La capacité d'écrire sur tout est apparue par surprise, en 2019, chez des scientifiques qui visaient bien moins.</span></li>
+    <li><span>Le grand saut vient de la taille : <span class="nw">GPT-3</span> est 1 500 fois plus gros que <span class="nw">GPT-1</span>, pour une recette presque identique.</span></li>
+    <li><span>L'IA a 70 ans. Les machines qui parlent en ont 7.</span></li>
+  </ul>
+</section>
+
+<!-- LEXIQUE -->
+<section class="block" id="lexique" aria-labelledby="t-lex">
+  <p class="eyebrow">Les mots</p>
+  <h2 id="t-lex">Petit lexique</h2>
+  <dl class="lex">
+    <div><dt>Intelligence artificielle (IA)</dt><dd>Le domaine qui cherche à confier aux machines des tâches qui demandent de l'intelligence quand un humain les fait. Il existe depuis 1956.</dd></div>
+    <div><dt>Réseau de neurones</dt><dd>Un programme fait de millions de petits calculs reliés entre eux, vaguement inspiré du cerveau. Il apprend à partir d'exemples.</dd></div>
+    <div><dt>Apprentissage profond</dt><dd>Des réseaux de neurones empilés en de nombreuses couches. En anglais : deep learning. La méthode décolle en 2012.</dd></div>
+    <div><dt>Paramètre</dt><dd>Un petit bouton de réglage à l'intérieur du réseau. L'entraînement tourne ces boutons un tout petit peu à chaque erreur. <span class="nw">GPT-3</span> en compte 175 milliards.</dd></div>
+    <div><dt>Entraînement</dt><dd>La phase où le programme devine, se trompe et se fait corriger, des milliards de fois.</dd></div>
+    <div><dt>Modèle de langage</dt><dd>Un programme entraîné à deviner la suite d'un texte. On parle de grand modèle de langage (en anglais LLM, pour Large Language Model) quand il compte des milliards de réglages.</dd></div>
+    <div><dt>Jeton</dt><dd>Le morceau de texte deviné à chaque tour : un mot entier ou un bout de mot. En anglais : token.</dd></div>
+    <div><dt>Transformer</dt><dd>La forme de réseau de neurones inventée chez Google en 2017. Chaque mot du texte peut « regarder » tous les autres.</dd></div>
+    <div><dt>GPT</dt><dd>Generative Pre-trained Transformer, soit un transformer génératif pré-entraîné : il produit du texte après avoir appris sur une montagne de textes.</dd></div>
+    <div><dt>Chatbot</dt><dd>Un programme avec lequel on discute par écrit. ChatGPT est un chatbot posé sur un grand modèle de langage.</dd></div>
+  </dl>
+</section>
+
+<!-- QUIZ -->
+<section class="block" id="quiz-section" aria-labelledby="t-quiz">
+  <p class="eyebrow">Teste-toi</p>
+  <h2 id="t-quiz">Vrai ou faux ?</h2>
+  <ol class="quiz" id="quiz">
+    <li class="q" data-answer="faux">
+      <p class="qs">ChatGPT est le premier modèle de langage.</p>
+      <div class="qa" role="group" aria-label="Ta réponse"><button type="button" class="btn ans-btn" data-v="vrai" aria-pressed="false">Vrai</button><button type="button" class="btn ans-btn" data-v="faux" aria-pressed="false">Faux</button></div>
+      <p class="fb" aria-live="polite"></p>
+      <p class="ex" hidden><strong>Faux.</strong> <span class="nw">GPT-1</span> date de 2018, <span class="nw">GPT-2</span> de 2019. ChatGPT ouvre ces modèles au grand public fin 2022.</p>
+    </li>
+    <li class="q" data-answer="faux">
+      <p class="qs">En 2018, l'équipe d'OpenAI cherchait avant tout à fabriquer une machine qui parle.</p>
+      <div class="qa" role="group" aria-label="Ta réponse"><button type="button" class="btn ans-btn" data-v="vrai" aria-pressed="false">Vrai</button><button type="button" class="btn ans-btn" data-v="faux" aria-pressed="false">Faux</button></div>
+      <p class="fb" aria-live="polite"></p>
+      <p class="ex" hidden><strong>Faux.</strong> Elle visait des tests de compréhension. L'écriture fluide de <span class="nw">GPT-2</span> a surpris l'équipe elle-même.</p>
+    </li>
+    <li class="q" data-answer="vrai">
+      <p class="qs"><span class="nw">GPT-2</span> a appris un peu de français alors qu'on avait retiré les pages en français de ses lectures.</p>
+      <div class="qa" role="group" aria-label="Ta réponse"><button type="button" class="btn ans-btn" data-v="vrai" aria-pressed="false">Vrai</button><button type="button" class="btn ans-btn" data-v="faux" aria-pressed="false">Faux</button></div>
+      <p class="fb" aria-live="polite"></p>
+      <p class="ex" hidden><strong>Vrai.</strong> Il restait 10 Mo de français, surtout des citations, éparpillés dans 40 Go de texte.</p>
+    </li>
+    <li class="q" data-answer="vrai">
+      <p class="qs">Le « T » de GPT désigne une invention de Google.</p>
+      <div class="qa" role="group" aria-label="Ta réponse"><button type="button" class="btn ans-btn" data-v="vrai" aria-pressed="false">Vrai</button><button type="button" class="btn ans-btn" data-v="faux" aria-pressed="false">Faux</button></div>
+      <p class="fb" aria-live="polite"></p>
+      <p class="ex" hidden><strong>Vrai.</strong> Le transformer, décrit en juin 2017 par huit scientifiques de Google.</p>
+    </li>
+    <li class="q" data-answer="faux">
+      <p class="qs">Pour répondre, une IA comme ChatGPT recopie des phrases trouvées sur internet.</p>
+      <div class="qa" role="group" aria-label="Ta réponse"><button type="button" class="btn ans-btn" data-v="vrai" aria-pressed="false">Vrai</button><button type="button" class="btn ans-btn" data-v="faux" aria-pressed="false">Faux</button></div>
+      <p class="fb" aria-live="polite"></p>
+      <p class="ex" hidden><strong>Faux.</strong> Elle compose sa réponse mot après mot, en pariant sur la suite. Presque tout ce qu'elle écrit est neuf. Il lui arrive de ressortir à l'identique un passage très répété, comme une citation célèbre.</p>
+    </li>
+  </ol>
+  <div class="quiz-foot">
+    <p class="score" aria-live="polite">Score : <span id="score">0</span> sur 5</p>
+    <button type="button" class="btn" id="quiz-reset">Effacer mes réponses</button>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="block sources" id="sources" aria-labelledby="t-src">
+  <p class="eyebrow">Sources</p>
+  <h2 id="t-src">D'où viennent ces informations</h2>
+  <p>Cette infographie s'inspire d'une vidéo de 2026 de <a href="https://www.youtube.com/@MonsieurPhi">Monsieur Phi</a> (Thibaut Giraud) consacrée à la généalogie des grands modèles de langage. La grille des trois cases vient de son livre <cite>La parole aux machines. Philosophie des grands modèles de langage</cite> (Grasset, 2025).</p>
+  <p>Les dates et les chiffres renvoient aux publications d'origine :</p>
+  <ul class="refs">
+    <li>Sutskever, Martens et Hinton (2011), <a href="https://www.cs.toronto.edu/~ilya/pubs/2011/LANG-RNN.pdf">Generating Text with Recurrent Neural Networks</a></li>
+    <li>Krizhevsky, Sutskever et Hinton (2012), <a href="https://papers.nips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html">ImageNet Classification with Deep Convolutional Neural Networks</a></li>
+    <li>Karpathy (2015), <a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks</a></li>
+    <li>Vinyals et Le (2015), <a href="https://arxiv.org/abs/1506.05869">A Neural Conversational Model</a></li>
+    <li>Shazeer et al. (2017), <a href="https://arxiv.org/abs/1701.06538">Outrageously Large Neural Networks</a></li>
+    <li>Radford, Jozefowicz et Sutskever (2017), <a href="https://arxiv.org/abs/1704.01444">Learning to Generate Reviews and Discovering Sentiment</a></li>
+    <li>Vaswani et al. (2017), <a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></li>
+    <li>Radford et al. (2018), <a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">Improving Language Understanding by Generative Pre-Training</a></li>
+    <li>Devlin et al. (2018), <a href="https://arxiv.org/abs/1810.04805">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</a></li>
+    <li>Radford et al. (2019), <a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Language Models are Unsupervised Multitask Learners</a> (<span class="nw">GPT-2</span>)</li>
+    <li>Sutton (2019), <a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html">The Bitter Lesson</a></li>
+    <li>Brown et al. (2020), <a href="https://arxiv.org/abs/2005.14165">Language Models are Few-Shot Learners</a> (<span class="nw">GPT-3</span>)</li>
+    <li>Computer History Museum, <a href="https://computerhistory.org/blog/early-frontiers-for-computer-creativity-tx-0-writes-a-western/">Early Frontiers for Computer Creativity: TX-0 Writes a Western</a></li>
+    <li>Michael Wooldridge (2020), <cite>The Road to Conscious Machines</cite>, paru aux États-Unis sous le titre <cite>A Brief History of Artificial Intelligence</cite></li>
+    <li>René Descartes (1637), <cite>Discours de la méthode</cite>, cinquième partie. Alan Turing (1950), <cite>Computing Machinery and Intelligence</cite></li>
+  </ul>
+  <p class="small-note">Les textes de machines sont traduits de l'anglais. Les pourcentages des jeux sont inventés pour l'exemple.</p>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Rochane Kherbouche · Technopédagogue, consultant IA · <a href="https://ia.rochane.fr">ia.rochane.fr</a></p>
+    <p>CC BY-SA 4.0 · Octobre 2026</p>
+  </div>
+</footer>
+
+</div>
+
+<script>
+document.documentElement.setAttribute('lang', 'fr');
+(function () {
+  var NBSP = ' ', NNBSP = ' ';
+  function fr(s) {
+    return s.replace(/ :/g, NBSP + ':')
+            .replace(/ ([;!?])/g, NNBSP + '$1')
+            .replace(/« /g, '«' + NBSP)
+            .replace(/ »/g, NBSP + '»')
+            .replace(/(\d) %/g, '$1' + NNBSP + '%');
+  }
+  function q(sel, root) { return (root || document).querySelector(sel); }
+  function qa(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  /* Jeu du mot suivant */
+  var game = document.getElementById('jeu');
+  if (game) {
+    var rounds = qa('.round', game);
+    var resetGame = function () {
+      rounds.forEach(function (r, i) {
+        r.hidden = i !== 0;
+        delete r.dataset.done;
+        qa('.choice', r).forEach(function (b) { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
+        q('.bets', r).hidden = true;
+        qa('.bars li', r).forEach(function (li) { li.classList.remove('mine'); });
+        q('.feedback', r).textContent = '';
+      });
+    };
+    rounds.forEach(function (r, i) {
+      var bets = q('.bets', r), fb = q('.feedback', r), next = q('.next', r);
+      qa('.choice', r).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (r.dataset.done) return;
+          r.dataset.done = '1';
+          var word = btn.dataset.word;
+          qa('.choice', r).forEach(function (b) {
+            var on = b === btn;
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+            if (!on) b.disabled = true;
+          });
+          var rows = qa('.bars li[data-word]', r);
+          var top = rows[0], mine = null;
+          rows.forEach(function (li) {
+            var on = li.dataset.word === word;
+            li.classList.toggle('mine', on);
+            if (on) mine = li;
+          });
+          bets.hidden = false;
+          if (mine === top) {
+            fb.textContent = fr('Même pari que la machine : c’est aussi son favori.');
+          } else {
+            var v = mine ? q('.v', mine).textContent : '';
+            fb.textContent = fr('Pari possible. La machine lui donne ' + v + ', son favori est « ' + top.dataset.word + ' ».');
+          }
+        });
+      });
+      next.addEventListener('click', function () {
+        if (i < rounds.length - 1) {
+          r.hidden = true;
+          rounds[i + 1].hidden = false;
+          q('.choice', rounds[i + 1]).focus();
+        } else {
+          resetGame();
+          q('.choice', rounds[0]).focus();
+        }
+      });
+    });
+  }
+
+  /* Écriture mot à mot */
+  var w = document.getElementById('ecrire');
+  if (w) {
+    var steps = qa('.steps li', w).map(function (li) {
+      return {
+        pick: li.dataset.pick,
+        label: li.dataset.label || li.dataset.pick,
+        bets: li.dataset.bets.split('|').map(function (s) { var p = s.split(':'); return { w: p[0], p: +p[1] }; })
+      };
+    });
+    var gen = q('.gen', w), chips = q('.chips', w), last = q('.last', w), note = q('.random-note', w);
+    var btnStep = q('.step-btn', w), nbLabel = q('.nb-label', w), k = 0;
+    var drawChips = function (step) {
+      chips.textContent = '';
+      step.bets.forEach(function (b) {
+        var s = document.createElement('span');
+        s.className = 'chip';
+        s.textContent = b.w + NBSP + b.p + NNBSP + '%';
+        chips.appendChild(s);
+      });
+    };
+    var initWriter = function () {
+      k = 0;
+      gen.textContent = '';
+      drawChips(steps[0]);
+      nbLabel.textContent = fr('Paris pour le mot suivant :');
+      last.textContent = 'La machine n’a encore rien écrit.';
+      note.hidden = true;
+      btnStep.textContent = 'Mot suivant';
+    };
+    btnStep.addEventListener('click', function () {
+      if (k >= steps.length) { initWriter(); return; }
+      var st = steps[k];
+      var punct = /^[.,]$/.test(st.pick);
+      if (!punct) gen.appendChild(document.createTextNode(' '));
+      var span = document.createElement('span');
+      span.className = 'gen-w';
+      span.textContent = st.pick;
+      gen.appendChild(span);
+      var picked = st.bets.filter(function (b) { return b.w === st.label; })[0];
+      var top = st.bets.reduce(function (a, b) { return b.p > a.p ? b : a; });
+      last.textContent = fr('Mot tiré : « ' + st.label + ' » (' + picked.p + ' %).');
+      if (top.w !== st.label) {
+        note.hidden = false;
+        note.textContent = fr('Tirage au sort : « ' + st.label + ' » (' + picked.p + ' %) est sorti, alors que « ' + top.w + ' » (' + top.p + ' %) était un peu plus probable. C’est ce qui rend chaque texte unique.');
+      } else {
+        note.hidden = true;
+      }
+      k++;
+      if (k < steps.length) {
+        drawChips(steps[k]);
+      } else {
+        chips.textContent = '';
+        nbLabel.textContent = 'Point final : le texte est terminé.';
+        btnStep.textContent = 'Recommencer';
+      }
+    });
+    initWriter();
+  }
+
+  /* Testeur de la grille */
+  var t = document.getElementById('testeur');
+  if (t) {
+    var cands = qa('.cand', t), vname = q('.verdict-name', t), comments = qa('.vc', t);
+    var rowsT = { n: q('[data-crit="n"]', t), f: q('[data-crit="f"]', t), s: q('[data-crit="s"]', t) };
+    var show = function (b) {
+      cands.forEach(function (c) { c.setAttribute('aria-pressed', c === b ? 'true' : 'false'); });
+      vname.textContent = b.textContent;
+      ['n', 'f', 's'].forEach(function (key) {
+        var ok = b.dataset[key] === '1', li = rowsT[key];
+        li.classList.toggle('oui', ok);
+        li.classList.toggle('non', !ok);
+        q('.ans', li).textContent = ok ? 'oui' : 'non';
+      });
+      comments.forEach(function (p) { p.hidden = p.dataset.for !== b.dataset.key; });
+    };
+    cands.forEach(function (c) { c.addEventListener('click', function () { show(c); }); });
+  }
+
+  /* Quiz vrai ou faux */
+  var quiz = document.getElementById('quiz');
+  if (quiz) {
+    var items = qa('.q', quiz), scoreEl = document.getElementById('score');
+    var updateScore = function () {
+      scoreEl.textContent = items.filter(function (it) { return it.dataset.ok === '1'; }).length;
+    };
+    items.forEach(function (it) {
+      var btns = qa('.ans-btn', it), fbq = q('.fb', it), ex = q('.ex', it);
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (it.dataset.done) return;
+          it.dataset.done = '1';
+          var ok = b.dataset.v === it.dataset.answer;
+          it.dataset.ok = ok ? '1' : '0';
+          btns.forEach(function (x) {
+            x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+            if (x !== b) x.disabled = true;
+          });
+          fbq.textContent = ok ? 'Bonne réponse.' : 'Pas tout à fait.';
+          fbq.className = 'fb ' + (ok ? 'good' : 'bad');
+          ex.hidden = false;
+          updateScore();
+        });
+      });
+    });
+    document.getElementById('quiz-reset').addEventListener('click', function () {
+      items.forEach(function (it) {
+        delete it.dataset.done;
+        delete it.dataset.ok;
+        qa('.ans-btn', it).forEach(function (x) { x.disabled = false; x.setAttribute('aria-pressed', 'false'); });
+        var f = q('.fb', it);
+        f.textContent = '';
+        f.className = 'fb';
+        q('.ex', it).hidden = true;
+      });
+      updateScore();
+    });
+  }
+})();
+</script>
+</body>
+</html>
